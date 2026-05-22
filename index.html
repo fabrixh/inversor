@@ -529,7 +529,7 @@ async function fetchTasaPlazoFijo() {
   const arr = await r.json();
   if (!arr || !arr.length) throw new Error('Sin datos');
   let item = arr.find(x => x.entidad && x.entidad.toLowerCase().includes('naci')) || arr[0];
-  const val = item.tnaClientes || item.tna || item.valor || 0;
+  const val = (item.tnaClientes || item.tna || item.valor || 0) *100;
   return { value: val, detail: `TNA · ${item.entidad || 'Banco Nación'}`, source: 'ArgentinaDatos / BCRA', signal: null };
 }
 
