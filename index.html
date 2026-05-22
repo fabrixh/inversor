@@ -322,6 +322,28 @@
       .card-value { font-size: 1.3rem; }
       .sources-grid { grid-template-columns: 1fr; }
     }
+/* ── MODO CLARO ── */
+    body.light {
+      --bg:       #f0f4f8;
+      --bg2:      #e2e8f0;
+      --bg3:      #d1dae6;
+      --surface:  #ffffff;
+      --surface2: #eaf0f7;
+      --border:   rgba(0,0,0,0.08);
+      --border2:  rgba(0,0,0,0.15);
+      --text:     #1a2234;
+      --text2:    #4a5e78;
+      --text3:    #8a9bb0;
+    }
+    .theme-btn {
+      background: none; border: 1px solid var(--border2);
+      border-radius: var(--r-sm); color: var(--text2);
+      cursor: pointer; font-size: 18px;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .18s, color .18s;
+    }
+    .theme-btn:hover { background: var(--surface2); color: var(--text); }
   </style>
 </head>
 <body>
@@ -346,6 +368,9 @@
         <span class="sdot loading" id="sdot" aria-hidden="true"></span>
         <span id="statusTxt">Cargando datos...</span>
       </div>
+     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Cambiar tema">
+        <i class="ti ti-sun" id="themeIcon" aria-hidden="true"></i>
+      </button> 
       <button class="btn btn-primary" id="refreshBtn" onclick="fetchAll()" aria-label="Actualizar indicadores">
         <i class="ti ti-refresh" aria-hidden="true"></i> Actualizar
       </button>
@@ -747,7 +772,16 @@ async function fetchAll() {
   btn.disabled = false;
   btn.classList.remove('spin');
 }
-
+function toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    document.getElementById('themeIcon').className =
+      isLight ? 'ti ti-moon' : 'ti ti-sun';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('themeIcon').className = 'ti ti-moon';
+  }
 // ── INIT ──
 fetchAll();
 </script>
